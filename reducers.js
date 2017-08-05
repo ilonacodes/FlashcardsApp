@@ -2,7 +2,8 @@ import {t} from "./actions";
 import {flashcardContent} from "./EnEspContent";
 
 const initState = {
-    translationHidden: true
+    translationHidden: true,
+    invertedTranslation: false,
 }
 
 export const translateReducer = (state = initState, action) => {
@@ -18,19 +19,34 @@ export const translateReducer = (state = initState, action) => {
                 translationHidden: true,
             })
 
+        case t.NEXT_FLASHCARD:
+            return Object.assign({}, state, {
+                translationHidden: !state.invertedTranslation
+            })
+
+        case t.INVERT_TRANSLATION:
+            return Object.assign({}, state, {
+                translationHidden: state.invertedTranslation,
+                invertedTranslation: !state.invertedTranslation
+            })
+
         default:
             return state;
     }
 }
 
-export const currentFlashcardReducer = (state = 0, action) => {
+const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const getRandomFlashcard = () => {
+    return getRandomInt(0, flashcardContent.length - 1)
+}
+
+export const currentFlashcardReducer = (state = getRandomFlashcard(), action) => {
     switch (action.type) {
         case t.NEXT_FLASHCARD:
-            if (state < flashcardContent.length - 1) {
-                return state + 1;
-            }
-
-            return 0;
+            return getRandomFlashcard();
 
         default:
             return state;

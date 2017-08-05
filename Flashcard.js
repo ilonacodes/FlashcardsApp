@@ -7,18 +7,40 @@ import {Button, Text, View} from "react-native";
 
 export const flip = (e) => e.preventDefault()
 
-export const FlashcardPresentation = ({flashcardModel, flip, translationHidden, goToNext}) => {
+export const FlashcardPresentation = ({flashcardModel, flip, translationHidden, goToNext, invertedTranslation, invertTranslation}) => {
+
+    let language
+    let expression
+
+    if(translationHidden) {
+        language = flashcardModel.language
+        expression = flashcardModel.expression
+    } else {
+        language = flashcardModel.languageTranslation
+        expression = flashcardModel.translation
+    }
 
     return <View>
-        <Text>{translationHidden ? flashcardModel.expression : flashcardModel.translation}</Text>
+
+        <Text>{language}</Text>
+        <Text>{expression}</Text>
+
         <Button
-            title="Translate"
+            title="Flip"
             onPress={e => flip(translationHidden)}
         />
+
         <Button
             title="Next"
             onPress={goToNext}
         />
+
+        <Button
+            title={invertedTranslation ? "English → Spanish" : "Spanish → English"}
+            onPress={invertTranslation}
+        />
+
+
     </View>
 }
 
@@ -26,8 +48,10 @@ function mapStateToProps(state) {
     return {
         flashcardModel: flashcardContent[state.currentFlashcard],
         translationHidden: state.translate.translationHidden,
+        invertedTranslation: state.translate.invertedTranslation
     }
 }
+
 
 function toggleTranslation(dispatch, translationHidden) {
     if (translationHidden) {
@@ -45,6 +69,10 @@ function mapDispatchToProps(dispatch) {
 
         goToNext: () => {
             dispatch(actions.goToNext())
+        },
+
+        invertTranslation: () => {
+            dispatch(actions.invertTranslation())
         }
     }
 }
