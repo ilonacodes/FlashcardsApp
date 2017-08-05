@@ -1,7 +1,8 @@
 export const t = {
     INCREMENT_COUNTER: "INCREMENT_COUNTER",
     TRANSLATE_EXPRESSION: "TRANSLATE_EXPRESSION",
-    TRANSLATE_BACK: "TRANSLATE_BACK"
+    TRANSLATE_BACK: "TRANSLATE_BACK",
+    NEXT_FLASHCARD: "NEXT_FLASHCARD"
 };
 
 export const actions = {
@@ -15,5 +16,9 @@ export const actions = {
 
     translateBack: () => ({
         type: t.TRANSLATE_BACK
+    }),
+
+    goToNext: () => ({
+        type: t.NEXT_FLASHCARD
     })
 };

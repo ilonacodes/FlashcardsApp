@@ -7,7 +7,7 @@ import {Button, Text, View} from "react-native";
 
 export const flip = (e) => e.preventDefault()
 
-export const FlashcardPresentation = ({flashcardModel, flip, translationHidden}) => {
+export const FlashcardPresentation = ({flashcardModel, flip, translationHidden, goToNext}) => {
 
     return <View>
         <Text>{translationHidden ? flashcardModel.expression : flashcardModel.translation}</Text>
@@ -15,13 +15,17 @@ export const FlashcardPresentation = ({flashcardModel, flip, translationHidden})
             title="Translate"
             onPress={e => flip(translationHidden)}
         />
+        <Button
+            title="Next"
+            onPress={goToNext}
+        />
     </View>
 }
 
 function mapStateToProps(state) {
     return {
-        flashcardModel: flashcardContent[0],
-        translationHidden: state.translationHidden,
+        flashcardModel: flashcardContent[state.currentFlashcard],
+        translationHidden: state.translate.translationHidden,
     }
 }
 
@@ -37,6 +41,10 @@ function mapDispatchToProps(dispatch) {
     return {
         flip: (translationHidden) => {
             toggleTranslation(dispatch, translationHidden)
+        },
+
+        goToNext: () => {
+            dispatch(actions.goToNext())
         }
     }
 }

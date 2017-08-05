@@ -1,18 +1,9 @@
 import {t} from "./actions";
+import {flashcardContent} from "./EnEspContent";
 
 const initState = {
     translationHidden: true
 }
-
-export const counterReducer = (state = 0, action) => {
-    switch(action.type) {
-        case t.INCREMENT_COUNTER:
-            return state + 1;
-
-        default:
-            return state;
-    }
-};
 
 export const translateReducer = (state = initState, action) => {
     console.log(state, action)
@@ -26,6 +17,20 @@ export const translateReducer = (state = initState, action) => {
             return Object.assign({}, state, {
                 translationHidden: true,
             })
+
+        default:
+            return state;
+    }
+}
+
+export const currentFlashcardReducer = (state = 0, action) => {
+    switch (action.type) {
+        case t.NEXT_FLASHCARD:
+            if (state < flashcardContent.length - 1) {
+                return state + 1;
+            }
+
+            return 0;
 
         default:
             return state;
