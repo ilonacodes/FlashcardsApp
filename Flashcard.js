@@ -10,17 +10,21 @@ const styles = StyleSheet.create({
     flashcardView: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
         alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+
+    contentView: {
+        flex: 1,
     },
 
     face: {
         flex: 1,
         backgroundColor: '#2ecc71',
-        justifyContent: 'center',
-        alignItems: 'center',
         borderRadius: 10,
-        padding: 15,
+        paddingLeft: 15,
+        paddingRight: 15,
+        alignItems: 'stretch',
     },
 
     back: {
@@ -29,78 +33,105 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        padding: 15
-
+        padding: 15,
     },
 
     flipCard: {
         minHeight: 190,
         minWidth: 300,
         borderRadius: 10,
-        marginTop: 60,
     }
 })
 
-export const Face = ({flashcardModel}) => {
+export const Face = ({flashcardModel, flip}) => {
     return <View style={styles.face}>
-        <View style={{paddingBottom: 60, flex: 1, flexDirection: 'row', alignSelf: 'stretch', justifyContent: 'space-between'}}>
-            <Image
-                style={{height: 20, width: 20}}
-                source={require('./esp.png')}
-            />
-            <Image
-                style={{height: 20, width: 20}}
-                source={require('./reverse.png')}
-            />
-        </View>
+        <TouchableOpacity onPress={flip}>
+            <View style={{
+                paddingTop: 10,
+                paddingBottom: 75,
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+            }}>
+                <Image
+                    style={{height: 20, width: 20}}
+                    source={require('./esp.png')}
+                />
+                <Image
+                    style={{height: 20, width: 20}}
+                    source={require('./reverse.png')}
+                />
+            </View>
 
-        <Text style={{paddingBottom: 60}}>{flashcardModel.expression}</Text>
+            <View style={{flex: 1, alignSelf: 'center'}}>
+                <Text style={{}}>{flashcardModel.expression}</Text>
+            </View>
+        </TouchableOpacity>
     </View>
 }
 
-export const Back = ({flashcardModel}) => {
+export const Back = ({flashcardModel, flip}) => {
     return <View style={styles.back}>
-        <Text style={{alignSelf: 'flex-start', paddingBottom: 60}}>
-            <Image
-                style={{height: 20, width: 20}}
-                source={require('./en.png')}
-            />
-        </Text>
-        <Text style={{paddingBottom: 60}}>{flashcardModel.translation}</Text>
+        <TouchableOpacity onPress={flip}>
+            <View style={{
+                paddingBottom: 60,
+                flex: 1,
+                flexDirection: 'row',
+                alignSelf: 'stretch',
+                justifyContent: 'space-between'
+            }}>
+                <Image
+                    style={{height: 20, width: 20}}
+                    source={require('./en.png')}
+                />
+                <Image
+                    style={{height: 20, width: 20}}
+                    source={require('./reverse.png')}
+                />
+            </View>
+            <View>
+                <Text style={{paddingBottom: 60}}>{flashcardModel.translation}</Text>
+            </View>
+        </TouchableOpacity>
     </View>
 }
 
-export const FlashcardPresentation = ({flashcardModel, goToNext, invertedTranslation, invertTranslation}) => {
+export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, goToNext, invertedTranslation, invertTranslation}) => {
 
     let flipCard
 
-    if (invertedTranslation) {
-        flipCard = <FlipCard style={styles.flipCard}>
-            <Back flashcardModel={flashcardModel} />
-            <Face flashcardModel={flashcardModel} />
-        </FlipCard>
-    } else {
-        flipCard = <FlipCard style={styles.flipCard}>
-            <Face flashcardModel={flashcardModel} />
-            <Back flashcardModel={flashcardModel} />
-        </FlipCard>
-    }
+    let flipFn = () => flip(translationHidden)
+
+    flipCard = <FlipCard
+        style={styles.flipCard}
+        flip={!translationHidden}
+    >
+        <Face flashcardModel={flashcardModel} flip={flipFn}/>
+        <Back flashcardModel={flashcardModel} flip={flipFn}/>
+    </FlipCard>
 
     return <View style={styles.flashcardView}>
 
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 50}}>
-            <TouchableOpacity onPress={invertTranslation}>
-                <Image style={{height: 100, width: 100}}
-                    source={invertedTranslation ? require('./esp.png') : require('./en.png')}
-                />
-            </TouchableOpacity>
+        <View style={styles.contentView}>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <TouchableOpacity onPress={invertTranslation}>
+                    <Image style={{height: 100, width: 100}}
+                           source={invertedTranslation ? require('./esp.png') : require('./en.png')}
+                    />
+                </TouchableOpacity>
+            </View>
+
+            <View style={{flex: 2}}>
+                {flipCard}
+            </View>
         </View>
 
-        <View style={{flex: 2, justifyContent: 'center', marginTop: 0}}>
-            {flipCard}
-        </View>
-
-        <View style={{flex: 2, justifyContent: 'center', marginTop: 0}}>
+        <View style={{flexDirection: 'row'}}>
+            <Button
+                title="Settings"
+                onPress={() => {
+                }}
+            />
             <Button
                 title="Next"
                 onPress={goToNext}
@@ -110,8 +141,17 @@ export const FlashcardPresentation = ({flashcardModel, goToNext, invertedTransla
     </View>
 }
 
+function toggleTranslation(dispatch, translationHidden) {
+    if (translationHidden) {
+        dispatch(actions.translateExpression())
+    } else {
+        dispatch(actions.translateBack())
+    }
+}
+
 function mapStateToProps(state) {
     return {
+        translationHidden: state.translate.translationHidden,
         flashcardModel: flashcardContent[state.currentFlashcard],
         invertedTranslation: state.translate.invertedTranslation
     }
@@ -120,6 +160,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        flip: (translationHidden) => {
+            toggleTranslation(dispatch, translationHidden)
+        },
+
         goToNext: () => {
             dispatch(actions.goToNext())
         },
