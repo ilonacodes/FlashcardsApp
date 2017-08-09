@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import {flashcardContent} from "./EnEspContent";
 import {actions} from "./actions";
-import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FlipCard from "react-native-flip-card/lib/FlipCard";
 
 const styles = StyleSheet.create({
@@ -30,16 +30,38 @@ const styles = StyleSheet.create({
     back: {
         flex: 1,
         backgroundColor: '#f1c40f',
-        justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'stretch',
         borderRadius: 10,
-        padding: 15,
+        paddingRight: 15,
+        paddingLeft: 15,
     },
 
     flipCard: {
         minHeight: 190,
         minWidth: 300,
         borderRadius: 10,
+    },
+
+    navBar: {
+        flexDirection: 'row',
+        backgroundColor: 'blue',
+        alignSelf: 'stretch',
+        justifyContent: 'space-around',
+        height: 60,
+    },
+
+    navBarSettings: {
+        flex: 1,
+        backgroundColor: 'yellow',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    navBarNext: {
+        flex: 1,
+        backgroundColor: 'green',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
@@ -74,10 +96,10 @@ export const Back = ({flashcardModel, flip}) => {
     return <View style={styles.back}>
         <TouchableOpacity onPress={flip}>
             <View style={{
-                paddingBottom: 60,
+                paddingTop: 10,
+                paddingBottom: 75,
                 flex: 1,
                 flexDirection: 'row',
-                alignSelf: 'stretch',
                 justifyContent: 'space-between'
             }}>
                 <Image
@@ -89,8 +111,8 @@ export const Back = ({flashcardModel, flip}) => {
                     source={require('./reverse.png')}
                 />
             </View>
-            <View>
-                <Text style={{paddingBottom: 60}}>{flashcardModel.translation}</Text>
+            <View style={{flex: 1, alignSelf: 'center'}}>
+                <Text style={{}}>{flashcardModel.translation}</Text>
             </View>
         </TouchableOpacity>
     </View>
@@ -113,7 +135,7 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
     return <View style={styles.flashcardView}>
 
         <View style={styles.contentView}>
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
                 <TouchableOpacity onPress={invertTranslation}>
                     <Image style={{height: 100, width: 100}}
                            source={invertedTranslation ? require('./esp.png') : require('./en.png')}
@@ -121,21 +143,26 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
                 </TouchableOpacity>
             </View>
 
-            <View style={{flex: 2}}>
+            <View style={{flex: 3}}>
                 {flipCard}
             </View>
         </View>
 
-        <View style={{flexDirection: 'row'}}>
-            <Button
-                title="Settings"
-                onPress={() => {
-                }}
-            />
-            <Button
-                title="Next"
-                onPress={goToNext}
-            />
+        <View style={styles.navBar}>
+
+            <View style={styles.navBarSettings}>
+                <TouchableOpacity>
+                    <Text>Settings</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.navBarNext}>
+                <TouchableOpacity
+                    onPress={goToNext}
+                >
+                    <Text>Next</Text>
+                </TouchableOpacity>
+            </View>
         </View>
 
     </View>
