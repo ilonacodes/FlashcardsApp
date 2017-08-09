@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
         minHeight: 190,
         minWidth: 300,
         borderRadius: 10,
+        marginLeft: 10,
+        marginRight: 10
     },
 
     navBar: {
