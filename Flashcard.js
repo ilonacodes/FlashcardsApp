@@ -6,12 +6,15 @@ import {actions} from "./actions";
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FlipCard from "react-native-flip-card/lib/FlipCard";
 
+import FontAwesome, {Icons} from "react-native-fontawesome";
+
 const styles = StyleSheet.create({
     flashcardView: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
+        backgroundColor: '#e7e4df',
     },
 
     contentView: {
@@ -20,28 +23,33 @@ const styles = StyleSheet.create({
 
     face: {
         flex: 1,
-        backgroundColor: '#2ecc71',
+        backgroundColor: '#fff',
         borderRadius: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingLeft: 10,
+        paddingRight: 10,
         alignItems: 'stretch',
     },
 
     back: {
         flex: 1,
-        backgroundColor: '#f1c40f',
+        backgroundColor: '#fff',
         alignItems: 'stretch',
         borderRadius: 10,
-        paddingRight: 15,
-        paddingLeft: 15,
+        paddingRight: 10,
+        paddingLeft: 10,
     },
 
     flipCard: {
-        minHeight: 190,
+        minHeight: 200,
         minWidth: 300,
         borderRadius: 10,
-        marginLeft: 10,
-        marginRight: 10
+        marginLeft: 15,
+        marginRight: 15,
+        borderColor: '#959595',
+        shadowColor: '#888888',
+        shadowRadius: 3,
+        shadowOpacity: 1,
+        shadowOffset: {width: 4, height: 3},
     },
 
     navBar: {
@@ -54,25 +62,38 @@ const styles = StyleSheet.create({
 
     navBarSettings: {
         flex: 1,
-        backgroundColor: 'yellow',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'tomato',
     },
 
     navBarNext: {
         flex: 1,
-        backgroundColor: 'green',
+        backgroundColor: '#1fa67a',
         justifyContent: 'center',
-        alignItems: 'center'
-    }
+        alignItems: 'center',
+    },
+
+    flipIcon: {
+        height: 20,
+        width: 20,
+        textAlign: 'right',
+        color: "#777",
+    },
 })
+
+export const FlipIcon = () => {
+    return <FontAwesome style={styles.flipIcon}>
+        {Icons.refresh}
+    </FontAwesome>
+}
 
 export const Face = ({flashcardModel, flip}) => {
     return <View style={styles.face}>
         <TouchableOpacity onPress={flip}>
             <View style={{
                 paddingTop: 10,
-                paddingBottom: 75,
+                paddingBottom: 80,
                 flex: 1,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -81,14 +102,11 @@ export const Face = ({flashcardModel, flip}) => {
                     style={{height: 20, width: 20}}
                     source={require('./esp.png')}
                 />
-                <Image
-                    style={{height: 20, width: 20}}
-                    source={require('./reverse.png')}
-                />
+                <FlipIcon/>
             </View>
 
             <View style={{flex: 1, alignSelf: 'center'}}>
-                <Text style={{}}>{flashcardModel.expression}</Text>
+                <Text style={{fontSize: 16, fontWeight: '400'}}>{flashcardModel.expression}</Text>
             </View>
         </TouchableOpacity>
     </View>
@@ -108,13 +126,10 @@ export const Back = ({flashcardModel, flip}) => {
                     style={{height: 20, width: 20}}
                     source={require('./en.png')}
                 />
-                <Image
-                    style={{height: 20, width: 20}}
-                    source={require('./reverse.png')}
-                />
+                <FlipIcon/>
             </View>
             <View style={{flex: 1, alignSelf: 'center'}}>
-                <Text style={{}}>{flashcardModel.translation}</Text>
+                <Text style={{fontSize: 16, fontWeight: '400'}}>{flashcardModel.translation}</Text>
             </View>
         </TouchableOpacity>
     </View>
@@ -154,7 +169,7 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
 
             <View style={styles.navBarSettings}>
                 <TouchableOpacity>
-                    <Text>Settings</Text>
+                    <Text style={{}}>Settings</Text>
                 </TouchableOpacity>
             </View>
 
@@ -162,7 +177,7 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
                 <TouchableOpacity
                     onPress={goToNext}
                 >
-                    <Text>Next</Text>
+                    <Text style={{fontSize: 22, color: 'white', fontWeight: '500'}}>Next</Text>
                 </TouchableOpacity>
             </View>
         </View>
