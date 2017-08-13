@@ -3,10 +3,12 @@ import {connect} from "react-redux";
 
 import {flashcardContent} from "./EnEspContent";
 import {actions} from "./actions";
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View, Platform} from "react-native";
 import FlipCard from "react-native-flip-card/lib/FlipCard";
 
 import FontAwesome, {Icons} from "react-native-fontawesome";
+
+let platformTopMargin = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
     flashcardView: {
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: '#e7e4df',
+        backgroundColor: '#eee9e9'
     },
 
     contentView: {
@@ -54,24 +56,36 @@ const styles = StyleSheet.create({
 
     navBar: {
         flexDirection: 'row',
-        backgroundColor: 'blue',
         alignSelf: 'stretch',
         justifyContent: 'space-around',
-        height: 60,
+        height: 50,
+    },
+
+    navBarTop: {
+        flex: 0,
+        alignSelf: 'stretch',
+        marginTop: platformTopMargin,
     },
 
     navBarSettings: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'tomato',
+        backgroundColor: 'white',
+    },
+
+    navBarLanguage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
 
     navBarNext: {
         flex: 1,
-        backgroundColor: '#1fa67a',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
     },
 
     flipIcon: {
@@ -80,6 +94,31 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         color: "#777",
     },
+
+    cogsIcon: {
+        height: 'auto',
+        width: 40,
+        textAlign: 'center',
+        color: '#1fa67a',
+        fontSize: 18,
+    },
+
+    languageIcons: {
+        height: 'auto',
+        width: 40,
+        textAlign: 'center',
+        color: '#1fa67a',
+        fontSize: 18,
+    },
+
+
+    nextIcon: {
+        height: 'auto',
+        width: 40,
+        textAlign: 'center',
+        color: '#1fa67a',
+        fontSize: 18,
+    }
 })
 
 export const FlipIcon = () => {
@@ -99,8 +138,8 @@ export const Face = ({flashcardModel, flip}) => {
                 justifyContent: 'space-between',
             }}>
                 <Image
-                    style={{height: 20, width: 20}}
-                    source={require('./esp.png')}
+                    style={{height: 13, width: 20}}
+                    source={require('./spain-flag.png')}
                 />
                 <FlipIcon/>
             </View>
@@ -123,8 +162,8 @@ export const Back = ({flashcardModel, flip}) => {
                 justifyContent: 'space-between'
             }}>
                 <Image
-                    style={{height: 20, width: 20}}
-                    source={require('./en.png')}
+                    style={{height: 13, width: 20}}
+                    source={require('./uk-flag.png')}
                 />
                 <FlipIcon/>
             </View>
@@ -151,16 +190,16 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
 
     return <View style={styles.flashcardView}>
 
-        <View style={styles.contentView}>
-            <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                <TouchableOpacity onPress={invertTranslation}>
-                    <Image style={{height: 100, width: 100}}
-                           source={invertedTranslation ? require('./esp.png') : require('./en.png')}
-                    />
-                </TouchableOpacity>
+        <View style={styles.navBarTop}>
+            <View style={{justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: '#1fa67a'}}>
+                <Text style={{color: '#ffffff', fontSize: 18}}>Spanish to English Flashcards</Text>
             </View>
+        </View>
 
-            <View style={{flex: 3}}>
+        <View style={styles.contentView}>
+            <View style={{flex: 2}}/>
+
+            <View style={{flex: 4}}>
                 {flipCard}
             </View>
         </View>
@@ -169,7 +208,19 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
 
             <View style={styles.navBarSettings}>
                 <TouchableOpacity>
-                    <Text style={{}}>Settings</Text>
+                    <FontAwesome style={styles.cogsIcon}>
+                        {Icons.cogs}
+                    </FontAwesome>
+                    <Text style={{fontSize: 10, alignSelf: 'center', paddingTop: 3, color: '#1fa67a'}}>Settings</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.navBarLanguage}>
+                <TouchableOpacity onPress={invertTranslation}>
+                    <FontAwesome style={styles.languageIcons}>
+                        {Icons.language}
+                    </FontAwesome>
+                    <Text style={{fontSize: 10, alignSelf: 'center', paddingTop: 3, color: '#1fa67a'}}>Flip</Text>
                 </TouchableOpacity>
             </View>
 
@@ -177,7 +228,10 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
                 <TouchableOpacity
                     onPress={goToNext}
                 >
-                    <Text style={{fontSize: 22, color: 'white', fontWeight: '500'}}>Next</Text>
+                    <FontAwesome style={styles.nextIcon}>
+                        {Icons.arrowCircleORight}
+                    </FontAwesome>
+                    <Text style={{fontSize: 10, alignSelf: 'center', paddingTop: 3, color: '#1fa67a'}}>Next</Text>
                 </TouchableOpacity>
             </View>
         </View>

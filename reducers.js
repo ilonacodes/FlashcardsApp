@@ -19,11 +19,6 @@ export const translateReducer = (state = initState, action) => {
                 translationHidden: true,
             })
 
-        case t.NEXT_FLASHCARD:
-            return Object.assign({}, state, {
-                translationHidden: !state.invertedTranslation
-            })
-
         case t.INVERT_TRANSLATION:
             return Object.assign({}, state, {
                 translationHidden: state.invertedTranslation,
