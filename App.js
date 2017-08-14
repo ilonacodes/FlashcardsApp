@@ -4,9 +4,8 @@ import {Font} from "expo";
 import {currentFlashcardReducer, translateReducer} from "./reducers";
 import {combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
-import {Flashcard} from "./Flashcard";
 import {Text, View} from "react-native";
-
+import {Routes} from "./routes";
 
 let store = createStore(combineReducers({
     translate: translateReducer,
@@ -30,7 +29,7 @@ export default class App extends React.Component {
         if (this.state.fontLoaded) {
             return (
                 <Provider store={store}>
-                    <Flashcard />
+                    <Routes/>
                 </Provider>
             );
         } else {

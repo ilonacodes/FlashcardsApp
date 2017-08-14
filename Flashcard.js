@@ -3,12 +3,10 @@ import {connect} from "react-redux";
 
 import {flashcardContent} from "./EnEspContent";
 import {actions} from "./actions";
-import {Image, StyleSheet, Text, TouchableOpacity, View, Platform} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FlipCard from "react-native-flip-card/lib/FlipCard";
 
 import FontAwesome, {Icons} from "react-native-fontawesome";
-
-let platformTopMargin = Platform.OS === 'ios' ? 20 : 0;
 
 const styles = StyleSheet.create({
     flashcardView: {
@@ -64,7 +62,6 @@ const styles = StyleSheet.create({
     navBarTop: {
         flex: 0,
         alignSelf: 'stretch',
-        marginTop: platformTopMargin,
     },
 
     navBarSettings: {
@@ -174,11 +171,12 @@ export const Back = ({flashcardModel, flip}) => {
     </View>
 }
 
-export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, goToNext, invertedTranslation, invertTranslation}) => {
-
+export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, goToNext, invertTranslation, navigation}) => {
     let flipCard
 
     let flipFn = () => flip(translationHidden)
+
+    const {navigate} = navigation
 
     flipCard = <FlipCard
         style={styles.flipCard}
@@ -192,14 +190,14 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
 
         <View style={styles.navBarTop}>
             <View style={{justifyContent: 'center', alignItems: 'center', height: 50, backgroundColor: '#1fa67a'}}>
-                <Text style={{color: '#ffffff', fontSize: 18}}>Spanish to English Flashcards</Text>
+                <Text style={{color: '#fff', fontSize: 18}}>Spanish to English Flashcards</Text>
             </View>
         </View>
 
         <View style={styles.contentView}>
             <View style={{flex: 2}}/>
 
-            <View style={{flex: 4}}>
+            <View style={{flex: 6}}>
                 {flipCard}
             </View>
         </View>
@@ -207,7 +205,7 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
         <View style={styles.navBar}>
 
             <View style={styles.navBarSettings}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate('Settings')}>
                     <FontAwesome style={styles.cogsIcon}>
                         {Icons.cogs}
                     </FontAwesome>
@@ -251,7 +249,6 @@ function mapStateToProps(state) {
     return {
         translationHidden: state.translate.translationHidden,
         flashcardModel: flashcardContent[state.currentFlashcard],
-        invertedTranslation: state.translate.invertedTranslation
     }
 }
 
@@ -273,3 +270,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export const Flashcard = connect(mapStateToProps, mapDispatchToProps)(FlashcardPresentation)
+
+Flashcard.navigationOptions = {
+    title: 'Home',
+}

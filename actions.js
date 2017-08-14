@@ -3,7 +3,7 @@ export const t = {
     TRANSLATE_EXPRESSION: "TRANSLATE_EXPRESSION",
     TRANSLATE_BACK: "TRANSLATE_BACK",
     NEXT_FLASHCARD: "NEXT_FLASHCARD",
-    INVERT_TRANSLATION: "INVERT_TRANSLATION"
+    INVERT_TRANSLATION: "INVERT_TRANSLATION",
 };
 
 export const actions = {
@@ -25,5 +25,5 @@ export const actions = {
 
     invertTranslation: () => ({
         type: t.INVERT_TRANSLATION
-    })
+    }),
 };
