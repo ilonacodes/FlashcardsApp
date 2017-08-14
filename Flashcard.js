@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'space-around',
         height: 50,
+        backgroundColor: 'white',
     },
 
     navBarTop: {
