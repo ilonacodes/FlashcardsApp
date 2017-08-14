@@ -1,15 +1,17 @@
 import React from "react";
 import {Font} from "expo";
 
-import {currentFlashcardReducer, translateReducer} from "./reducers";
+import {currentFlashcardReducer, dimensionsReducer, translateReducer} from "./reducers";
 import {combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
-import {Text, View} from "react-native";
+import {Dimensions, Text, View} from "react-native";
 import {Routes} from "./routes";
+import {actions} from "./actions";
 
 let store = createStore(combineReducers({
     translate: translateReducer,
     currentFlashcard: currentFlashcardReducer,
+    dimensions: dimensionsReducer,
 }));
 
 export default class App extends React.Component {
@@ -39,3 +41,7 @@ export default class App extends React.Component {
         }
     }
 }
+
+Dimensions.addEventListener("change", (dimensions) => {
+    store.dispatch(actions.updateDimensions(dimensions))
+})

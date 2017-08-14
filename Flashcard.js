@@ -127,22 +127,24 @@ export const FlipIcon = () => {
 export const Face = ({flashcardModel, flip}) => {
     return <View style={styles.face}>
         <TouchableOpacity onPress={flip}>
-            <View style={{
-                paddingTop: 10,
-                paddingBottom: 80,
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-            }}>
-                <Image
-                    style={{height: 13, width: 20}}
-                    source={require('./spain-flag.png')}
-                />
-                <FlipIcon/>
-            </View>
+            <View>
+                <View style={{
+                    paddingTop: 10,
+                    paddingBottom: 80,
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
+                    <Image
+                        style={{height: 13, width: 20}}
+                        source={require('./spain-flag.png')}
+                    />
+                    <FlipIcon/>
+                </View>
 
-            <View style={{flex: 1, alignSelf: 'center'}}>
-                <Text style={{fontSize: 16, fontWeight: '400'}}>{flashcardModel.expression}</Text>
+                <View style={{flex: 1, alignSelf: 'center'}}>
+                    <Text style={{fontSize: 16, fontWeight: '400'}}>{flashcardModel.expression}</Text>
+                </View>
             </View>
         </TouchableOpacity>
     </View>
@@ -171,7 +173,7 @@ export const Back = ({flashcardModel, flip}) => {
     </View>
 }
 
-export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, goToNext, invertTranslation, navigation}) => {
+export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, goToNext, invertTranslation, navigation, dimensions}) => {
     let flipCard
 
     let flipFn = () => flip(translationHidden)
@@ -197,7 +199,7 @@ export const FlashcardPresentation = ({flashcardModel, translationHidden, flip, 
         <View style={styles.contentView}>
             <View style={{flex: 2}}/>
 
-            <View style={{flex: 6}}>
+            <View style={{flex: (dimensions.height <= 568) ? 6 : 5}}>
                 {flipCard}
             </View>
         </View>
@@ -249,6 +251,7 @@ function mapStateToProps(state) {
     return {
         translationHidden: state.translate.translationHidden,
         flashcardModel: flashcardContent[state.currentFlashcard],
+        dimensions: state.dimensions,
     }
 }
 

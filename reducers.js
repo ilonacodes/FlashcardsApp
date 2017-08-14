@@ -1,5 +1,6 @@
 import {t} from "./actions";
 import {flashcardContent} from "./EnEspContent";
+import {Dimensions} from "react-native";
 
 const initState = {
     translationHidden: true,
@@ -45,6 +46,21 @@ export const currentFlashcardReducer = (state = getRandomFlashcard(), action) =>
 
         default:
             return state;
+    }
+}
+
+let initDimensions = Dimensions.get('window');
+
+export const dimensionsReducer = (state = initDimensions, action) => {
+    switch (action.type) {
+        case t.UPDATE_DIMENSIONS:
+            return {
+                ...state,
+                ...action.payload['window'],
+            }
+
+        default:
+            return state
     }
 }
 
