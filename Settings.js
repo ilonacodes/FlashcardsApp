@@ -19,7 +19,7 @@ export const Settings = ({navigation}) => {
 
         <SettingsList borderColor='#c8c7cc'>
             <SettingsList.Item
-                title='About the App'
+                title='About'
                 onPress={() => navigate('About')}
                 itemWidth={50}
                 backgroundColor='#f7f7f8'
