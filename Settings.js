@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, View, Linking} from "react-native";
 import SettingsList from "react-native-settings-list";
 
 const styles = StyleSheet.create({
@@ -15,6 +15,8 @@ export const Settings = ({navigation}) => {
 
     const {navigate} = navigation
 
+
+
     return <View style={styles.settingsView}>
 
         <SettingsList borderColor='#c8c7cc'>
@@ -26,15 +28,13 @@ export const Settings = ({navigation}) => {
             />
             <SettingsList.Item
                 title='Blog'
-                onPress={() => {
-                }}
+                onPress={() => Linking.openURL('http://ilonacodes.com/blog/')}
                 itemWidth={50}
                 backgroundColor='#f7f7f8'
             />
             <SettingsList.Item
                 title='Open-source Libraries'
-                onPress={() => {
-                }}
+                onPress={() => navigate('Libraries')}
                 itemWidth={50}
                 backgroundColor='#f7f7f8'
             />
