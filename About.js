@@ -1,5 +1,6 @@
 import React from "react";
-import {Linking, StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
+import {Link} from "./Link";
 
 export const styles = StyleSheet.create({
     aboutView: {
@@ -19,10 +20,6 @@ export const styles = StyleSheet.create({
 
     aboutText: {
         marginTop: 10,
-    },
-
-    link: {
-        color: 'blue',
     },
 })
 
@@ -53,13 +50,6 @@ const Miscellaneous = () => {
                   text="ilonacodes"/>
         </Text>
     </View>
-}
-
-const Link = ({url, text}) => {
-    return <Text style={styles.link}
-                 onPress={() => Linking.openURL(url)}>
-        {text}
-    </Text>
 }
 
 const AboutText = () => {

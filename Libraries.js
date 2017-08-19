@@ -1,7 +1,8 @@
 import React from "react";
-import {Linking, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 
 import licenses from "./licenses.json";
+import {Link} from "./Link";
 
 const styles = StyleSheet.create({
     viewContainer: {
@@ -18,10 +19,6 @@ const styles = StyleSheet.create({
     miscellaneous: {
         fontSize: 16,
         marginBottom: 2
-    },
-
-    link: {
-        color: 'blue',
     },
 })
 
@@ -54,14 +51,6 @@ const List = () => {
 
     </ScrollView>
 }
-
-const Link = ({url, text}) => {
-    return <Text style={styles.link}
-                 onPress={() => Linking.openURL(url)}>
-        {text}
-    </Text>
-}
-
 Libraries.navigateOptions = {
     title: 'Libraries',
 }
