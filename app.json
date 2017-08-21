@@ -1,5 +1,21 @@
 {
   "expo": {
-    "sdkVersion": "19.0.0"
+    "privacy": "unlisted",
+    "sdkVersion": "19.0.0",
+    "ios": {
+      "bundleIdentifier": "com.ilonacodes.flashcards"
+    },
+    "android": {
+      "package": "com.ilonacodes.flashcards"
+    },
+    "name": "FlashcardsApp",
+    "slug": "flashcardsapp",
+    "version": "0.1.0",
+    "isDetached": true,
+    "detach": {
+      "scheme": "exp2aa25f3a95704d8d8caffe5c9cd199db",
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v1.18.2-sdk19.0.0-3fabbbb7-61b3-4a1e-9932-12d0aa6af276.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v1.18.4-sdk19.0.0-3fb414c9-8696-4966-a0ac-9ca424242424.tar.gz"
+    }
   }
 }
